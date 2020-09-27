@@ -3,6 +3,8 @@
 namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
+use App\Http\Middleware\ForceJsonResponse;
 
 class Kernel extends HttpKernel
 {
@@ -40,6 +42,7 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
+            EnsureFrontendRequestsAreStateful::class, //tambahkan ini
             'throttle:60,1',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
@@ -63,5 +66,6 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'json.response' => ForceJsonResponse::class,
     ];
 }
